@@ -1,4 +1,18 @@
-canvas {
+body {
+	position: relative;
+	width: 1024px;
+	margin: 0 auto;
+}
+
+#overhead_map {
+	border: 1px solid black;
+	margin: 0 auto;
+	display: block;
+	position: absolute;
+	right: -2px;
+}
+
+#player_pov {
 	border: 1px solid black;
 	margin: 0 auto;
 	display: block;
