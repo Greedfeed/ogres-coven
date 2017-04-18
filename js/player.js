@@ -1,10 +1,26 @@
-//listen for keyboard input
-window.addEventListener("keydown", move_player, false);
-
 function move_player(e) {
 	var player_move;
 
-	switch(e.keyCode) {
+	if (e.keyCode == 38 || e.keyCode == 87) { // Player holding up
+		player_move = 'forward';
+		turn_player(player_move);
+	}
+	if (e.keyCode == 40 || e.keyCode == 83) { // Player holding down
+		player_move = 'backward';
+		turn_player(player_move);
+	}
+	if (e.keyCode == 37 || e.keyCode == 65) { // Player holding left
+		player_move = 'left';
+		turn_player(player_move);
+	}
+	if (e.keyCode == 39 || e.keyCode == 68) { // Player holding right
+		player_move = 'right';
+		turn_player(player_move);
+	}
+
+
+
+	/*switch(e.keyCode) {
 		case 37:
 			player_move = 'left';
 			turn_player(player_move);
@@ -21,7 +37,7 @@ function move_player(e) {
 			player_move = 'backward';
 			turn_player(player_move);
 			break;
-	}
+	}*/
 }
 
 function validate_move(x, y) {
@@ -89,6 +105,6 @@ function turn_player(move) {
 		validate_move(new_player_pos_x, new_player_pos_y)
 	}
 
-	create_world();
+	draw_game();
 }
 

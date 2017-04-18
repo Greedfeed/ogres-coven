@@ -1,4 +1,22 @@
-function draw_pov() {
+function startup_screen() {
+	// Score
+	hud_context.fillStyle = "#B6091A";
+	hud_context.textAlign = "center";
+	hud_context.textBaseline = "top";
+
+	hud_context.font = "48px Helvetica";
+  	hud_context.strokeText('Ogre\'s Coven', hud_canvas.width * 0.5, 150);
+
+	hud_context.font = "28px Helvetica";
+  	hud_context.fillText('New Game', hud_canvas.width * 0.5, 300);
+  	hud_context.strokeText('New Game', hud_canvas.width * 0.5, 300);
+
+  	hud_context.strokeText('Continue', hud_canvas.width * 0.5, 350);
+
+  	hud_canvas.addEventListener("click", select_option, false);
+}
+
+function draw_hud() {
 	var x = player_pos_x;
 	var y = player_pos_y;
 
@@ -12,36 +30,36 @@ function draw_pov() {
 	init_imgs(cone_of_vision);
 
 	//Clear Contents of Previous Map Canvas
-	player_pov_context.clearRect(0, 0, player_pov_canvas.width, player_pov_canvas.height);
+	hud_context.clearRect(0, 0, hud_canvas.width, hud_canvas.height);
 
 	//Create Pespective Lines
-	player_pov_context.strokeStyle = "#CDCDCD";
-	player_pov_context.beginPath();
-	player_pov_context.moveTo(player_pov_canvas.width * 0.5, player_pov_canvas.height * 0.5);
-	player_pov_context.lineTo(120, player_pov_canvas.height);
-	player_pov_context.stroke();
-	player_pov_context.closePath();
+	hud_context.strokeStyle = "#CDCDCD";
+	hud_context.beginPath();
+	hud_context.moveTo(hud_canvas.width * 0.5, hud_canvas.height * 0.5);
+	hud_context.lineTo(120, hud_canvas.height);
+	hud_context.stroke();
+	hud_context.closePath();
 
-	player_pov_context.beginPath();
-	player_pov_context.moveTo(player_pov_canvas.width * 0.5, player_pov_canvas.height * 0.5);
-	player_pov_context.lineTo(904, player_pov_canvas.height);
-	player_pov_context.stroke();
-	player_pov_context.closePath();
+	hud_context.beginPath();
+	hud_context.moveTo(hud_canvas.width * 0.5, hud_canvas.height * 0.5);
+	hud_context.lineTo(904, hud_canvas.height);
+	hud_context.stroke();
+	hud_context.closePath();
 
-	player_pov_context.beginPath();
-	player_pov_context.moveTo(player_pov_canvas.width * 0.5, player_pov_canvas.height * 0.5);
-	player_pov_context.lineTo(120, 0);
-	player_pov_context.stroke();
-	player_pov_context.closePath();
+	hud_context.beginPath();
+	hud_context.moveTo(hud_canvas.width * 0.5, hud_canvas.height * 0.5);
+	hud_context.lineTo(120, 0);
+	hud_context.stroke();
+	hud_context.closePath();
 
-	player_pov_context.beginPath();
-	player_pov_context.moveTo(player_pov_canvas.width * 0.5, player_pov_canvas.height * 0.5);
-	player_pov_context.lineTo(904, 0);
-	player_pov_context.stroke();
-	player_pov_context.closePath();
+	hud_context.beginPath();
+	hud_context.moveTo(hud_canvas.width * 0.5, hud_canvas.height * 0.5);
+	hud_context.lineTo(904, 0);
+	hud_context.stroke();
+	hud_context.closePath();
 
-	player_pov_context.fillStyle = '#CDCDCD';
-	player_pov_context.fillRect(0, (player_pov_canvas.height - 70) * 0.5, player_pov_canvas.width, 70);
+	hud_context.fillStyle = '#CDCDCD';
+	hud_context.fillRect(0, (hud_canvas.height - 70) * 0.5, hud_canvas.width, 70);
 
 	switch(player_orientation) {
 		case 0:
@@ -62,9 +80,9 @@ function draw_pov() {
 			break;
 		case 180:
 			cone_of_vision = {
-				'col_-2_row_3':[(y + 3), (x + 2)], 'col_-1_row_3':[(y + 3), (x + 1)], 'col_2_row_3':[(y + 3), (x + 2)], 'col_1_row_3':[(y + 3), (x - 1)], 'col_0_row_3':[(y + 3), (x)],
-				'col_-2_row_2':[(y + 2), (x + 2)], 'col_-1_row_2':[(y + 2), (x + 1)], 'col_2_row_2':[(y + 2), (x + 2)], 'col_1_row_2':[(y + 2), (x - 1)], 'col_0_row_2':[(y + 2), (x)],
-				'col_-2_row_1':[(y + 1), (x + 2)], 'col_-1_row_1':[(y + 1), (x + 1)], 'col_2_row_1':[(y + 1), (x + 2)], 'col_1_row_1':[(y + 1), (x - 1)], 'col_0_row_1':[(y + 1), (x)],
+				'col_-2_row_3':[(y + 3), (x + 2)], 'col_-1_row_3':[(y + 3), (x + 1)], 'col_2_row_3':[(y + 3), (x - 2)], 'col_1_row_3':[(y + 3), (x - 1)], 'col_0_row_3':[(y + 3), (x)],
+				'col_-2_row_2':[(y + 2), (x + 2)], 'col_-1_row_2':[(y + 2), (x + 1)], 'col_2_row_2':[(y + 2), (x - 2)], 'col_1_row_2':[(y + 2), (x - 1)], 'col_0_row_2':[(y + 2), (x)],
+				'col_-2_row_1':[(y + 1), (x + 2)], 'col_-1_row_1':[(y + 1), (x + 1)], 'col_2_row_1':[(y + 1), (x - 2)], 'col_1_row_1':[(y + 1), (x - 1)], 'col_0_row_1':[(y + 1), (x)],
 												   'col_-1_row_0':[(y + 0), (x + 1)], 									'col_1_row_0':[(y + 0), (x - 1)]
 			};
 			break;
@@ -97,8 +115,8 @@ function draw_pov() {
 function place_wall(wall_location) {
 	var wall_img = new Image();
 	wall_img.onload = function() {
-		var	y = (player_pov_canvas.height - this.height) * 0.5;
-		player_pov_context.drawImage(wall_img, 0, y);
+		var	y = (hud_canvas.height - this.height) * 0.5;
+		hud_context.drawImage(wall_img, 0, y);
 	}
 
 	wall_img.src = 'img/'+wall_location+'.png';

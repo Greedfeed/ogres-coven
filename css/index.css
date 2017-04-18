@@ -4,15 +4,23 @@ body {
 	margin: 0 auto;
 }
 
+#inventory {
+	border: 1px solid black;
+	margin: 0 auto;
+	display: none;
+	position: relative;
+	top: -152px;
+}
+
 #overhead_map {
 	border: 1px solid black;
 	margin: 0 auto;
-	display: block;
+	display: none;
 	position: absolute;
 	right: -2px;
 }
 
-#player_pov {
+#hud {
 	border: 1px solid black;
 	margin: 0 auto;
 	display: block;

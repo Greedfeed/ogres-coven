@@ -1,4 +1,5 @@
-function draw_map(map) {
+function draw_map() {
+	map = map; 
 	//Clear Contents of Previous Map Canvas
 	overhead_map_context.clearRect(0, 0, overhead_map_canvas.width, overhead_map_canvas.height);
 	//Give Map a White Background
