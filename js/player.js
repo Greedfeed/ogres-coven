@@ -17,27 +17,6 @@ function move_player(e) {
 		player_move = 'right';
 		turn_player(player_move);
 	}
-
-
-
-	/*switch(e.keyCode) {
-		case 37:
-			player_move = 'left';
-			turn_player(player_move);
-			break;
-		case 38:
-			player_move = 'forward';
-			turn_player(player_move);
-			break;
-		case 39:
-			player_move = 'right';
-			turn_player(player_move);
-			break;
-		case 40:
-			player_move = 'backward';
-			turn_player(player_move);
-			break;
-	}*/
 }
 
 function validate_move(x, y) {

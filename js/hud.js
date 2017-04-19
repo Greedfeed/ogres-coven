@@ -16,6 +16,20 @@ function startup_screen() {
   	hud_canvas.addEventListener("click", select_option, false);
 }
 
+function select_option(e) {
+	cursor_position = get_cursor_position(e);
+
+	//New Game Selected
+	if (cursor_position[0] >= 660 && cursor_position[0] <= 800
+		&& cursor_position[1] >= 300 && cursor_position[1] <= 328) {
+			document.getElementById('overhead_map').style.display = "block";
+			document.getElementById('inventory').style.display = "block";
+			init_world('0_0');
+
+  		hud_canvas.removeEventListener("click", select_option, false);
+	}
+}
+
 function draw_hud() {
 	var x = player_pos_x;
 	var y = player_pos_y;
@@ -98,26 +112,48 @@ function draw_hud() {
 			break;
 	}
 	
-	for (wall_location in cone_of_vision) {
-		var wall_y = cone_of_vision[wall_location][0];
-		var wall_x = cone_of_vision[wall_location][1];
+	for (entity_location in cone_of_vision) {
+		var entity_y = cone_of_vision[entity_location][0];
+		var entity_x = cone_of_vision[entity_location][1];
 
-		if (map[wall_y] != null && map[wall_y][wall_x] != null && wall_y >= 0 && wall_x >= 0 ) {
-			if (map[wall_y][wall_x] == 1 ) {
-				place_wall(wall_location);
+		if (map[entity_y] != null && map[entity_y][entity_x] != null && entity_y >= 0 && entity_x >= 0 ) {
+			//Determine the object to place
+			switch(map[entity_y][entity_x]) {
+				case '1':
+					place_entity(entity_location);
+					break;
+				case '2':
+					entity_img_path = entities[entity_y+'_'+entity_x].img_path;
+
+					place_entity(entity_img_path, entity_location);
+					break;
 			}
 		} else {
-			place_wall(wall_location);
+			place_entity(entity_location);
 		}
 	}
 }
 
-function place_wall(wall_location) {
-	var wall_img = new Image();
-	wall_img.onload = function() {
-		var	y = (hud_canvas.height - this.height) * 0.5;
-		hud_context.drawImage(wall_img, 0, y);
+function place_entity(img_location, coords) {
+
+	var hud_img = new Image();
+
+	if (coords != null) {
+		var coords_array = coords.split("_");
+		var coords_x = coords_array[1];
+		var coords_y = coords_array[3];
+
+		hud_img.onload = function() {
+			var	y = (hud_canvas.height - this.height) * 0.5;
+			hud_context.drawImage(hud_img, 0, y, coords_y * 100,  coords_y * 100);
+		}
+	} else {
+		hud_img.onload = function() {
+			var	y = (hud_canvas.height - this.height) * 0.5;
+			hud_context.drawImage(hud_img, 0, y);
+		}
 	}
 
-	wall_img.src = 'img/'+wall_location+'.png';
+	hud_img.src = 'img/'+img_location+'.png';
+
 }

@@ -1,4 +1,4 @@
-function draw_map() {
+function draw_mini_map() {
 	map = map; 
 	//Clear Contents of Previous Map Canvas
 	overhead_map_context.clearRect(0, 0, overhead_map_canvas.width, overhead_map_canvas.height);
@@ -15,6 +15,10 @@ function draw_map() {
 		for (var j=0; j < map[i].length; j++) {
 			if (map[i][j] == 1) {
 				overhead_map_context.fillStyle = '#757374';
+
+				overhead_map_context.fillRect(current_row, current_column, 10, 10);
+			} else if (map[i][j] == 2){
+				overhead_map_context.fillStyle = '#154995';
 
 				overhead_map_context.fillRect(current_row, current_column, 10, 10);
 			} else {
