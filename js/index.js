@@ -42,7 +42,6 @@ function init_world(zone) {
 function set_map(map_data) {
 	map = map_data.map;
 	entities = map_data.entities;
-
 	draw_game();
 }
 
@@ -77,6 +76,14 @@ function loadJSON(file, callback) {
 
 window.onload = function() {
 	startup_screen();
+}
+
+function draw_line(context, start_x, start_y, end_x, end_y) {
+	context.beginPath();
+	context.moveTo(start_x, start_y);
+	context.lineTo(end_x, end_y);
+	context.stroke();
+	context.closePath();
 }
 
 function get_cursor_position(e) {

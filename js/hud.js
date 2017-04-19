@@ -38,7 +38,7 @@ function draw_hud() {
 		'col_-2_row_3':'', 'col_-1_row_3':'', 'col_2_row_3':'', 'col_1_row_3':'', 'col_0_row_3':'',
 		'col_-2_row_2':'', 'col_-1_row_2':'', 'col_2_row_2':'', 'col_1_row_2':'', 'col_0_row_2':'',
 		'col_-2_row_1':'', 'col_-1_row_1':'', 'col_2_row_1':'', 'col_1_row_1':'', 'col_0_row_1':'',
-						'col_-1_row_0':'', 			   			'col_1_row_0':''
+						   'col_-1_row_0':'', 			   		'col_1_row_0':''
 	};
 
 	init_imgs(cone_of_vision);
@@ -48,29 +48,21 @@ function draw_hud() {
 
 	//Create Pespective Lines
 	hud_context.strokeStyle = "#CDCDCD";
-	hud_context.beginPath();
-	hud_context.moveTo(hud_canvas.width * 0.5, hud_canvas.height * 0.5);
-	hud_context.lineTo(120, hud_canvas.height);
-	hud_context.stroke();
-	hud_context.closePath();
 
-	hud_context.beginPath();
-	hud_context.moveTo(hud_canvas.width * 0.5, hud_canvas.height * 0.5);
-	hud_context.lineTo(904, hud_canvas.height);
-	hud_context.stroke();
-	hud_context.closePath();
+	//Ceiling Perspective Lines
+	draw_line(hud_context, hud_canvas.width * 0.5, hud_canvas.height * 0.5, 120, hud_canvas.height)
+	draw_line(hud_context, hud_canvas.width * 0.5, hud_canvas.height * 0.5, 120, 0)
 
-	hud_context.beginPath();
-	hud_context.moveTo(hud_canvas.width * 0.5, hud_canvas.height * 0.5);
-	hud_context.lineTo(120, 0);
-	hud_context.stroke();
-	hud_context.closePath();
+	//Floor Perspective Lines
+	draw_line(hud_context, hud_canvas.width * 0.5, hud_canvas.height * 0.5, 904, hud_canvas.height)
+	draw_line(hud_context, hud_canvas.width * 0.5, hud_canvas.height * 0.5, 904, 0)
+	draw_line(hud_context, hud_canvas.width * 0.5, hud_canvas.height * 0.5, hud_canvas.width, 561)
+	draw_line(hud_context, hud_canvas.width * 0.5, hud_canvas.height * 0.5, 0, 561)
 
-	hud_context.beginPath();
-	hud_context.moveTo(hud_canvas.width * 0.5, hud_canvas.height * 0.5);
-	hud_context.lineTo(904, 0);
-	hud_context.stroke();
-	hud_context.closePath();
+	//Floor grid
+	draw_line(hud_context, 0, 656, hud_canvas.width, 656)
+	draw_line(hud_context, 0, 539, hud_canvas.width, 539)
+	draw_line(hud_context, 0, 479, hud_canvas.width, 479)
 
 	hud_context.fillStyle = '#CDCDCD';
 	hud_context.fillRect(0, (hud_canvas.height - 70) * 0.5, hud_canvas.width, 70);
@@ -135,8 +127,8 @@ function draw_hud() {
 }
 
 function place_entity(img_location, coords) {
-
 	var hud_img = new Image();
+
 
 	if (coords != null) {
 		var coords_array = coords.split("_");
@@ -144,8 +136,46 @@ function place_entity(img_location, coords) {
 		var coords_y = coords_array[3];
 
 		hud_img.onload = function() {
-			var	y = (hud_canvas.height - this.height) * 0.5;
-			hud_context.drawImage(hud_img, 0, y, coords_y * 100,  coords_y * 100);
+			//center this image
+			var	y = (hud_canvas.height - (1/coords_y)*this.height) * 0.5;
+			var	x = (hud_canvas.width - (1/coords_y)*this.width) * 0.5;
+
+			/* INITIAL IDEA FOR SOME CLEAN UP:
+			if(coords_x == 2) { //Start with column and work your way down to each row
+				x = SOMETHING; //I think the height will be universal for everything in each row since the squares are
+
+				if(coords_y == 2) {
+					y = SOMETHING;
+				} if(coords_y == 2) {
+					y = SOMETHING;
+				}
+			}
+			//THIS ONLY WORKS FOR COSMONAUT, I NEED TO MAKE THIS MORE UNIVERSAL AND LESS OF AN IF STATEMENT SPAGHETTI MESS
+			
+			*/
+			/*if (coords_x == 0) {
+				x = (hud_canvas.width - (1/coords_y)*this.width) * 0.5;
+			} else if (coords_x == -2) {
+				x = this.width / 2;
+			} else if (coords_x == -1) {
+				x = this.width;
+			} else if (coords_x == 1) {
+				x =  hud_canvas.width - (this.width);
+			} else if (coords_x == 2) {
+				x =  hud_canvas.width - (this.width/4);
+			}
+
+			/*if (coords_y == 0) {
+				y = (hud_canvas.height - (1/coords_y)*this.height) * 0.5;
+			} else if (coords_y == 1) {
+				y =  hud_canvas.height - (this.height * 1.75);	
+			} else if (coords_y == 2) {
+				y =  hud_canvas.height - (this.height * 1.75);
+			} else if (coords_y == 3) {
+				y =  hud_canvas.height - (this.height * 2);
+			}*/
+
+			hud_context.drawImage(hud_img, x, y, (1/coords_y)*this.width,  (1/coords_y)*this.height);
 		}
 	} else {
 		hud_img.onload = function() {
