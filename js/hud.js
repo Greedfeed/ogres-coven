@@ -34,15 +34,6 @@ function draw_hud() {
 	var x = player_pos_x;
 	var y = player_pos_y;
 
-	var cone_of_vision = {
-		'col_-2_row_3':'', 'col_-1_row_3':'', 'col_2_row_3':'', 'col_1_row_3':'', 'col_0_row_3':'',
-		'col_-2_row_2':'', 'col_-1_row_2':'', 'col_2_row_2':'', 'col_1_row_2':'', 'col_0_row_2':'',
-		'col_-2_row_1':'', 'col_-1_row_1':'', 'col_2_row_1':'', 'col_1_row_1':'', 'col_0_row_1':'',
-						   'col_-1_row_0':'', 			   		'col_1_row_0':''
-	};
-
-	init_imgs(cone_of_vision);
-
 	//Clear Contents of Previous Map Canvas
 	hud_context.clearRect(0, 0, hud_canvas.width, hud_canvas.height);
 
@@ -115,6 +106,10 @@ function draw_hud() {
 					place_entity(entity_location);
 					break;
 				case '2':
+					if (entities[entity_y+'_'+entity_x] == null) {
+						console.log('Incorrect placement on map, use:'+entity_y+'_'+entity_x);
+					}
+
 					entity_img_path = entities[entity_y+'_'+entity_x].img_path;
 
 					place_entity(entity_img_path, entity_location);
@@ -123,6 +118,8 @@ function draw_hud() {
 		} else {
 			place_entity(entity_location);
 		}
+
+		console.log(entity_location);
 	}
 }
 
@@ -140,40 +137,15 @@ function place_entity(img_location, coords) {
 			var	y = (hud_canvas.height - (1/coords_y)*this.height) * 0.5;
 			var	x = (hud_canvas.width - (1/coords_y)*this.width) * 0.5;
 
-			/* INITIAL IDEA FOR SOME CLEAN UP:
-			if(coords_x == 2) { //Start with column and work your way down to each row
-				x = SOMETHING; //I think the height will be universal for everything in each row since the squares are
-
-				if(coords_y == 2) {
-					y = SOMETHING;
-				} if(coords_y == 2) {
-					y = SOMETHING;
-				}
-			}
-			//THIS ONLY WORKS FOR COSMONAUT, I NEED TO MAKE THIS MORE UNIVERSAL AND LESS OF AN IF STATEMENT SPAGHETTI MESS
-			
-			*/
-			/*if (coords_x == 0) {
-				x = (hud_canvas.width - (1/coords_y)*this.width) * 0.5;
-			} else if (coords_x == -2) {
-				x = this.width / 2;
+			if (coords_x == -2) {
+				x =  ((hud_canvas.width - (1/coords_y)*this.width) * 0.5) - (((1/coords_y)*this.width)*2.75);
 			} else if (coords_x == -1) {
-				x = this.width;
+				x =  ((hud_canvas.width - (1/coords_y)*this.width) * 0.5) - (((1/coords_y)*this.width)*1.35);
 			} else if (coords_x == 1) {
-				x =  hud_canvas.width - (this.width);
+				x =  ((hud_canvas.width - (1/coords_y)*this.width) * 0.5) + (((1/coords_y)*this.width)*1.35);
 			} else if (coords_x == 2) {
-				x =  hud_canvas.width - (this.width/4);
+				x =  ((hud_canvas.width - (1/coords_y)*this.width) * 0.5) + (((1/coords_y)*this.width)*2.75);
 			}
-
-			/*if (coords_y == 0) {
-				y = (hud_canvas.height - (1/coords_y)*this.height) * 0.5;
-			} else if (coords_y == 1) {
-				y =  hud_canvas.height - (this.height * 1.75);	
-			} else if (coords_y == 2) {
-				y =  hud_canvas.height - (this.height * 1.75);
-			} else if (coords_y == 3) {
-				y =  hud_canvas.height - (this.height * 2);
-			}*/
 
 			hud_context.drawImage(hud_img, x, y, (1/coords_y)*this.width,  (1/coords_y)*this.height);
 		}

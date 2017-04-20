@@ -27,7 +27,13 @@ var player_pos_x = 6;
 var player_pos_y = 10;
 //Players starting orientation
 player_orientation = compass['north'];
-
+//Players cone of vision, I'm not happy with how I'm handling this so far, but for now it's the best I can think of
+var cone_of_vision = {
+	'col_-2_row_3':'', 'col_-1_row_3':'', 'col_2_row_3':'', 'col_1_row_3':'', 'col_0_row_3':'',
+	'col_-2_row_2':'', 'col_-1_row_2':'', 'col_2_row_2':'', 'col_1_row_2':'', 'col_0_row_2':'',
+	'col_-2_row_1':'', 'col_-1_row_1':'', 'col_2_row_1':'', 'col_1_row_1':'', 'col_0_row_1':'',
+					   'col_-1_row_0':'', 			   		'col_1_row_0':''
+};
 
 //Pass in a zone to load it
 function init_world(zone) {
@@ -48,6 +54,15 @@ function set_map(map_data) {
 function draw_game() {
 	//listen for keyboard input
 	window.addEventListener("keydown", move_player, false);
+	
+	init_imgs(cone_of_vision);
+
+	var sprites = {};
+	for (entity in entities) {
+		sprites[entities[entity].img_path] = '';
+	}
+	init_imgs(sprites);
+
 
 	draw_mini_map();
 	draw_player_to_map(player_pos_x, player_pos_y, player_orientation);
