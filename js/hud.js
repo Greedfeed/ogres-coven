@@ -33,6 +33,7 @@ function select_option(e) {
 function draw_hud() {
 	var x = player_pos_x;
 	var y = player_pos_y;
+	var cone_of_vision;
 
 	//Clear Contents of Previous Map Canvas
 	hud_context.clearRect(0, 0, hud_canvas.width, hud_canvas.height);
@@ -96,6 +97,7 @@ function draw_hud() {
 	}
 	
 	for (entity_location in cone_of_vision) {
+
 		var entity_y = cone_of_vision[entity_location][0];
 		var entity_x = cone_of_vision[entity_location][1];
 
@@ -119,13 +121,11 @@ function draw_hud() {
 			place_entity(entity_location);
 		}
 
-		console.log(entity_location);
 	}
 }
 
 function place_entity(img_location, coords) {
 	var hud_img = new Image();
-
 
 	if (coords != null) {
 		var coords_array = coords.split("_");
